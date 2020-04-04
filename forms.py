@@ -85,6 +85,9 @@ class VenueForm(Form):
     phone = StringField(
         'phone'
     )
+    website = StringField(
+        'website', validators=[URL()]
+    )
     image_link = StringField(
         'image_link'
     )
@@ -183,6 +186,9 @@ class ArtistForm(Form):
     phone = StringField(
         # TODO implement validation logic for state
         'phone'
+    )
+    website = StringField(
+        'website', validators=[URL()]
     )
     image_link = StringField(
         'image_link'
