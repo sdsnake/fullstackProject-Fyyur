@@ -13,6 +13,7 @@ from logging import Formatter, FileHandler
 from flask_wtf import Form
 from forms import *
 from flask_migrate import Migrate
+import sys
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -99,25 +100,32 @@ def index():
 
 @app.route('/venues')
 def venues():
-  # TODO: replace with real venues data.
-  #       num_shows should be aggregated based on number of upcoming shows per venue.
-  data = Venue.query.all()
-  return render_template('pages/venues.html', areas=data);
+  data = []
+  venue_list = Venue.query.distinct('state', 'city').all()
+  for venue in venue_list:
+      venue_data = {
+          "city": venue.city,
+          "state": venue.state,
+          "venues": Venue.query.filter_by(city=venue.city).all()
+      }
+      data.append(venue_data)
+  return render_template('pages/venues.html', areas=data)
 
 @app.route('/venues/search', methods=['POST'])
 def search_venues():
   # TODO: implement search on artists with partial string search. Ensure it is case-insensitive.
   # seach for Hop should return "The Musical Hop".
   # search for "Music" should return "The Musical Hop" and "Park Square Live Music & Coffee"
-  response={
-    "count": 1,
-    "data": [{
-      "id": 2,
-      "name": "The Dueling Pianos Bar",
-      "num_upcoming_shows": 0,
-    }]
+  searched_term = request.form.get('search_term', '')
+
+  result_venues = Venue.query.filter(Venue.name.ilike("%" + searched_term + "%")).all()
+  count_venues = len(result_venues)
+
+  response = {
+      "count": count_venues,
+      "data": result_venues
   }
-  return render_template('pages/search_venues.html', results=response, search_term=request.form.get('search_term', ''))
+  return render_template('pages/search_venues.html', results=response, search_term=searched_term.lower())
 
 @app.route('/venues/<int:venue_id>', methods=['GET'])
 def show_venue(venue_id):
@@ -179,10 +187,18 @@ def create_venue_submission():
 def delete_venue(venue_id):
   # TODO: Complete this endpoint for taking a venue_id, and using
   # SQLAlchemy ORM to delete a record. Handle cases where the session commit could fail.
-
+  try:
+    Venue = Venue.query.get(venue_id)
+    db.session.delete(Venue)
+    db.session.commit()
+    flash('Venue ' + venue_id + ' was deleted')
+  except:
+    db.session.rollback()
+  finally:
+    db.session.close()
   # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
   # clicking that button delete it from the db then redirect the user to the homepage
-  return None
+  return redirect(url_for('index'))
 
 #  Artists
 #  ----------------------------------------------------------------
@@ -229,27 +245,19 @@ def edit_artist_submission(artist_id):
   # artist record with ID <artist_id> using the new attributes
   error = False
   try :
-    name = request.form.get('name')
-    city = request.form.get('city')
-    state = request.form.get('state')
-    phone = request.form.get('phone')
-    website = request.form.get('website')
-    image_link = request.form.get('image_link')
-    genres = request.form.get('genres')
-    facebook_link = request.form.get('facebook_link')
-    artist = Artist(name = name,
-                  city = city,
-                  state = state,
-                  phone = phone,
-                  website = website,
-                  image_link = image_link,
-                  genres = genres,
-                  facebook_link = facebook_link
-      )
-    db.session.update(artist)
+    artist = Artist.query.get(artist_id)
+    artist.name = request.form.get('name')
+    artist.city = request.form.get('city')
+    artist.state = request.form.get('state')
+    artist.phone = request.form.get('phone')
+    artist.website = request.form.get('website')
+    artist.image_link = request.form.get('image_link')
+    artist.genres = request.form.get('genres')
+    artist.facebook_link = request.form.get('facebook_link')
+    db.session.add(artist)
     db.session.commit()
   except:
-    flash('An error occurred. Artist ' + data.name + ' could not be listed.')
+    flash('An error occurred. Artist ' + artist.name + ' could not be listed.')
     error = True
     db.session.rollback()
     print(sys.exc_info())
