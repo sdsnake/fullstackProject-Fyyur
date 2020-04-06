@@ -13,11 +13,11 @@
 				</div>
 			</a>
 		</li>
-
+		<form method="delete" action="/venues/{{ venue.id }}">
+			<button type="submit">delete venue</button>
+		</form>
 		{% endfor %}
 	</ul>
-	<form method="DELETE" action="/venues/{{ area.id }}">
-		<button type="submit">delete venue</button>
-	</form>
+	
 {% endfor %}
 {% endblock %}
