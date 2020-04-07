@@ -249,8 +249,6 @@ def create_venue_submission():
             db.session.close()
     else:
         flash(form.errors)  # Flashes reason, why form is unsuccessful
-    # e.g., flash('An error occurred. Venue ' + data.name + ' could not be listed.')
-    # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
     return render_template('pages/home.html')
 
     @app.route('/venues/<venue_id>', methods=['DELETE'])
@@ -265,8 +263,6 @@ def create_venue_submission():
             db.session.rollback()
         finally:
             db.session.close()
-    # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
-    # clicking that button delete it from the db then redirect the user to the homepage
     return redirect(url_for('index'))
 
 #  Artists
@@ -543,8 +539,6 @@ def create_show_submission():
             db.session.close()
     else:
         flash(form.errors)  # Flashes reason, why form is unsuccessful
-    # e.g., flash('An error occurred. Show could not be listed.')
-    # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
     return render_template('pages/home.html')
 
 
