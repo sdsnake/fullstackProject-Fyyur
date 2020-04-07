@@ -293,7 +293,7 @@ def search_artists():
 @app.route('/artists/<int:artist_id>')
 def show_artist(artist_id):
     # shows the venue page with the given venue_id
-    # get the past and futur show to display. get the count show to
+    # get the past and futur show to display. get the count show too
     artist = Artist.query.filter_by(id=artist_id).first()
 
     old_shows = Venue.query.with_entities(Venue.id, Venue.name, Venue.image_link, Show.start_time).\
@@ -401,6 +401,7 @@ def edit_venue(venue_id):
 @app.route('/venues/<int:venue_id>/edit', methods=['POST'])
 def edit_venue_submission(venue_id):
     # venue record with ID <venue_id> using the new attributes
+    # get past, futur and count show to display on client
     error = False
     venue = Venue.query.get(venue_id)
     try:
