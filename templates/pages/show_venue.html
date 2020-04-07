@@ -73,6 +73,9 @@
 		</div>
 		{% endfor %}
 	</div>
+	<form method="delete" action="/venues/{{ venue.id }}">
+		<button type="submit">delete venue</button>
+	</form>
 </section>
 
 {% endblock %}

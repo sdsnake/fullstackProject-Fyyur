@@ -3,6 +3,8 @@
 {% block content %}
   <div class="form-wrapper">
     <form method="post" class="form">
+      <!-- this line was adeed to fix {'csrf_token': ['The CSRF token is missing.']}-->      
+      {{ form.hidden_tag() }}
       <h3 class="form-heading">List a new show</h3>
       <div class="form-group">
         <label for="artist_id">Artist ID</label>
@@ -19,6 +21,7 @@
           {{ form.start_time(class_ = 'form-control', placeholder='YYYY-MM-DD HH:MM', autofocus = true) }}
         </div>
       <input type="submit" value="Create Venue" class="btn btn-primary btn-lg btn-block">
+      {{ form.csrf_token() }}
     </form>
   </div>
 {% endblock %}
