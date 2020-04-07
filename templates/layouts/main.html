@@ -62,12 +62,14 @@
                   name="search_term"
                   placeholder="Find a venue"
                   aria-label="Search">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
               </form>
               {% endif %}
               {% if (request.endpoint == 'artists') or
                 (request.endpoint == 'search_artists') or
                 (request.endpoint == 'show_artist') %}
               <form class="search" method="post" action="/artists/search">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                 <input class="form-control"
                   type="search"
                   name="search_term"
