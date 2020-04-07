@@ -109,6 +109,17 @@ Looking to go above and beyond? This is the right section for you! Here are some
 * Implement Search Artists by City and State, and Search Venues by City and State. Searching by "San Francisco, CA" should return all artists or venues in San Francisco, CA.
 
 Best of luck in your final project! Fyyur depends on you!
+### the links that helped me realize the project:
+
+knowledge Udacity place and udacity community.
+https://hackersandslackers.com/flask-routes/
+https://flask-wtf.readthedocs.io/en/v0.12/csrf.html
+https://flask.palletsprojects.com/en/1.0.x/errorhandling/
+https://flask-migrate.readthedocs.io/en/latest/
+https://stackoverflow.com/questions/41000855/flask-sqlalchemy-full-text-search
+https://www.programiz.com/python-programming/datetime/strftime
+https://flask.palletsprojects.com/en/1.1.x/patterns/wtforms/
+https://nickjanetakis.com/blog/fix-missing-csrf-token-issues-with-flask
 
 ### Development Setup
 
