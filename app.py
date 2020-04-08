@@ -155,7 +155,7 @@ def show_venue(venue_id):
             "artist_id": old_show[0],
             "artist_name": old_show[1],
             "artist_image_link": old_show[2],
-            "start_time": old_show[3].start_time.strftime("%d %b %Y %H:%M:%S.%f")
+            "start_time": old_show.start_time.strftime("%d %b %Y %H:%M:%S.%f")
         }
         old_shows_todisplay.append(previous_show)
 
